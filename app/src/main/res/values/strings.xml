@@ -1,3 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NoteManager</string>
+    <string name="aucune_notes">Aucune notes</string>
+    <string name="rechercher">Rechercher</string>
+    <string name="favoris">Favoris</string>
+    <string name="creer">Créer</string>
+    <string name="modifier">Modifier</string>
 </resources>
