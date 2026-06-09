@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.text.TextWatcher;
+import android.text.Editable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText searchEditText;
     private Button btnFavoris;
     private boolean isPaletteOpen = false;
+    private NoteAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
         // Afficher "Aucune notes" si liste vide (sera géré par MND plus tard)
         tvAucuneNotes.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
+        initialiserRecherche();
+        initialiserFiltreFavoris();
     }
 
     private void setCircleShape(int viewId) {
@@ -93,5 +98,48 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CreateNoteActivity.class);
         intent.putExtra("color", color);
         startActivity(intent);
+
+    }
+    private void initialiserRecherche() {
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (adapter != null) {
+                    adapter.filtrerParRecherche(s.toString());
+                    mettreAJourMessageVide();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    private void initialiserFiltreFavoris() {
+        btnFavoris.setOnClickListener(v -> {
+            boolean nouvelEtat = !adapter.isFiltreFavorisActif();
+            adapter.setFiltreFavoris(nouvelEtat);
+            if (nouvelEtat) {
+                btnFavoris.setBackgroundColor(
+                        getResources().getColor(android.R.color.black));
+                btnFavoris.setTextColor(
+                        getResources().getColor(android.R.color.white));
+            } else {
+                btnFavoris.setBackgroundColor(
+                        getResources().getColor(android.R.color.white));
+                btnFavoris.setTextColor(
+                        getResources().getColor(android.R.color.black));
+            }
+            mettreAJourMessageVide();
+        });
+    }
+
+    private void mettreAJourMessageVide() {
+        boolean listeVide = adapter == null || adapter.getItemCount() == 0;
+        tvAucuneNotes.setVisibility(listeVide ? View.VISIBLE : View.GONE);
+        recyclerView.setVisibility(listeVide ? View.GONE : View.VISIBLE);
     }
 }
