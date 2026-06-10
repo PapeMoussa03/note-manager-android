@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/bleu">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@drawable/note_background"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/editTitre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Titre"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:background="@android:color/transparent"
+            android:inputType="textCapSentences"
+            android:maxLines="1"
+            android:padding="4dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#FFFFFF"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/editContenu"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:hint="Contenu de la note..."
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:background="@android:color/transparent"
+            android:inputType="textMultiLine|textCapSentences"
+            android:gravity="top"
+            android:padding="4dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnModifier"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:text="Modifier"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/btn_modifier_background"
+        android:textAllCaps="false" />
+
+</LinearLayout>

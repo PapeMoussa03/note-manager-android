@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".CreateNoteActivity" />
+        <activity android:name=".EditNoteActivity" />
     </application>
 
 </manifest>
