@@ -35,6 +35,7 @@ public class Note {
     public String getContenu()          { return contenu; }
     public void setContenu(String c)    { this.contenu = c; }
 
+  
     public String getCouleur()          { return couleur; }
     public void setCouleur(String c)    { this.couleur = c; }
 
