@@ -11,10 +11,11 @@ public class Note {
     private String contenu;
     private String couleur;
     private boolean favori;
-    private long dateCreation;
+    private String date;
 
     public Note() {
-        this.dateCreation = System.currentTimeMillis();
+        this.date = new SimpleDateFormat("dd MMMM yyyy", Locale.FRENCH)
+                .format(new Date());
         this.couleur = "#219653";
         this.favori = false;
     }
@@ -26,6 +27,16 @@ public class Note {
         this.couleur = couleur;
     }
 
+    public Note(int id, String titre, String contenu,
+                String couleur, boolean favori, String date) {
+        this.id      = id;
+        this.titre   = titre;
+        this.contenu = contenu;
+        this.couleur = couleur;
+        this.favori  = favori;
+        this.date    = date;
+    }
+
     public int getId()                  { return id; }
     public void setId(int id)           { this.id = id; }
 
@@ -35,19 +46,14 @@ public class Note {
     public String getContenu()          { return contenu; }
     public void setContenu(String c)    { this.contenu = c; }
 
-  
     public String getCouleur()          { return couleur; }
     public void setCouleur(String c)    { this.couleur = c; }
 
     public boolean isFavori()           { return favori; }
     public void setFavori(boolean f)    { this.favori = f; }
 
-    public long getDateCreation()       { return dateCreation; }
-    public void setDateCreation(long d) { this.dateCreation = d; }
+    public String getDate()             { return date; }
+    public void setDate(String date)    { this.date = date; }
 
-    public String getDateFormatee() {
-        SimpleDateFormat sdf = new SimpleDateFormat(
-                "dd MMMM yyyy", Locale.FRENCH);
-        return sdf.format(new Date(dateCreation));
-    }
+    public String getDateFormatee()     { return date != null ? date : ""; }
 }

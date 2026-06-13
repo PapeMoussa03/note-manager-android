@@ -6,20 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.esp.notemanager.R;
-import com.esp.notemanager.model.Note;
+import com.esp.notemanager.Note;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
@@ -54,8 +51,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-        Note note = notes.get(position);
-        holder.bind(note, clickListener, doubleClickListener);
+        holder.bind(notes.get(position), clickListener, doubleClickListener);
     }
 
     @Override
@@ -74,10 +70,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     static class NoteViewHolder extends RecyclerView.ViewHolder {
 
-        private final RelativeLayout container;
-        private final TextView tvTitle;
+        private final CardView cardNote;
+        private final TextView tvTitre;
         private final TextView tvDate;
-        private final ImageView ivFavorite;
+        private final ImageView ivFavori;
 
         private int clickCount = 0;
         private final Handler handler = new Handler();
@@ -85,30 +81,29 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
         NoteViewHolder(@NonNull View itemView) {
             super(itemView);
-            container  = itemView.findViewById(R.id.noteItemContainer);
-            tvTitle    = itemView.findViewById(R.id.tvNoteTitle);
-            tvDate     = itemView.findViewById(R.id.tvNoteDate);
-            ivFavorite = itemView.findViewById(R.id.ivFavorite);
+            cardNote = itemView.findViewById(R.id.cardNote);
+            tvTitre  = itemView.findViewById(R.id.tvTitre);
+            tvDate   = itemView.findViewById(R.id.tvDate);
+            ivFavori = itemView.findViewById(R.id.ivFavori);
         }
 
         void bind(Note note,
                   OnNoteClickListener clickListener,
                   OnNoteDoubleClickListener doubleClickListener) {
 
-            tvTitle.setText(note.getTitre());
-            tvDate.setText(formatDate(note.getDateCreation()));
+            tvTitre.setText(note.getTitre());
+            tvDate.setText(note.getDateFormatee());
 
             try {
-                container.setBackgroundColor(Color.parseColor(note.getCouleur()));
+                cardNote.setCardBackgroundColor(
+                        Color.parseColor(note.getCouleur()));
             } catch (IllegalArgumentException e) {
-                container.setBackgroundColor(Color.parseColor("#219653"));
+                cardNote.setCardBackgroundColor(
+                        Color.parseColor("#219653"));
             }
 
-            if (note.isFavori()) {
-                ivFavorite.setVisibility(View.VISIBLE);
-            } else {
-                ivFavorite.setVisibility(View.GONE);
-            }
+            ivFavori.setVisibility(
+                    note.isFavori() ? View.VISIBLE : View.GONE);
 
             itemView.setOnClickListener(v -> {
                 clickCount++;
@@ -121,14 +116,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 } else if (clickCount == 2) {
                     handler.removeCallbacks(singleClickAction);
                     clickCount = 0;
-                    if (doubleClickListener != null) doubleClickListener.onNoteDoubleClick(note);
+                    if (doubleClickListener != null)
+                        doubleClickListener.onNoteDoubleClick(note);
                 }
             });
-        }
-
-        private String formatDate(long timestamp) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.FRENCH);
-            return sdf.format(new Date(timestamp));
         }
     }
 }
